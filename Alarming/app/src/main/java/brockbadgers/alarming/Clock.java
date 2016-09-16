@@ -1,6 +1,8 @@
 package brockbadgers.alarming;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,7 @@ public class Clock extends AppCompatActivity {
     TextView status_text;
     Button on;
     Button off;
+    PendingIntent pending_intent;
 
 
     @Override
@@ -40,6 +43,9 @@ public class Clock extends AppCompatActivity {
         off = (Button) this.findViewById(R.id.btnStopAlarm);
         final Calendar calendar = Calendar.getInstance();
 
+        //Create Intent for AlarmReciever
+        final Intent clockCall = new Intent(this, AlarmReciever.class);
+
         //setOnClick for start button
         on.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +58,15 @@ public class Clock extends AppCompatActivity {
                 //set the status text
                 set_status_text(1, calendar.getTime().toString());
 
+                //tell service for new
+                clockCall.putExtra("start", 1);
+
+                //create pending intent to delay until specified time
+                pending_intent = PendingIntent.getBroadcast(Clock.this, 0, clockCall, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                //set the alarm manager
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
+
             }
         });
 
@@ -62,6 +77,14 @@ public class Clock extends AppCompatActivity {
                 //set status textbox
                 set_status_text(0, null);
 
+                //cancel alarm
+                alarmManager.cancel(pending_intent);
+
+                //tell service for new
+                clockCall.putExtra("start",0);
+
+                //stop the ringtone
+                sendBroadcast(clockCall);
             }
         });
 
