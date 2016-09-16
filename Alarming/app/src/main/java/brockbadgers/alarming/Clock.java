@@ -1,5 +1,6 @@
 package brockbadgers.alarming;
 
+import android.app.AlarmManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +9,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 public class Clock extends AppCompatActivity {
+
+    //make alarm manage
+    AlarmManager alarmManager;
+    TimePicker alarm_timepicker;
+    TextView status_text;
+    Button on;
+    Button off;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +32,54 @@ public class Clock extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //init variables
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarm_timepicker = (TimePicker) this.findViewById(R.id.timePickerAlarm);
+        status_text = (TextView) this.findViewById(R.id.status);
+        on = (Button) this.findViewById(R.id.btnSetAlarm);
+        off = (Button) this.findViewById(R.id.btnStopAlarm);
+        final Calendar calendar = Calendar.getInstance();
+
+        //setOnClick for start button
+        on.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+
+                //set calendar with hour and minute
+                calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+
+                //set the status text
+                set_status_text(1, calendar.getTime().toString());
+
             }
         });
+
+        //setOnClick for off button
+        off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set status textbox
+                set_status_text(0, null);
+
+            }
+        });
+
+
+    }
+
+    private void set_status_text(int status, String time) {
+        switch(status)
+        {
+            case 2:
+                status_text.setText(getString(R.string.status_alarm_going));
+                break;
+            case 1:
+                status_text.setText(getString(R.string.status_alarm_set) + time);
+                break;
+            default:
+                status_text.setText(getString(R.string.status_no_alarm_set));
+        }
     }
 
     @Override

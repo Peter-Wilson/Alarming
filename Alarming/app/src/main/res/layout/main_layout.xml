@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TimePicker
+        android:layout_marginTop="@dimen/actionbar_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePickerAlarm"
+        android:layout_weight="0.53" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSetAlarm"
+            android:text="@string/set_alarm"
+            android:layout_weight="1"
+            android:layout_gravity="left" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnStopAlarm"
+            android:layout_weight="1"
+            android:text="@string/unset_alarm" />
+    </LinearLayout>
+    <TextView android:layout_width="match_parent"
+        android:layout_height="@dimen/text_height"
+        android:text="@string/status_no_alarm_set"
+        android:id="@+id/status"
+        android:gravity="center_horizontal"
+        />
+</LinearLayout>

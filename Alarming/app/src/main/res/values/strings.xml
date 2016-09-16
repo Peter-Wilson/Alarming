@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Alarming</string>
     <string name="action_settings">Settings</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="unset_alarm">Stop Alarm</string>
+    <string name="status_no_alarm_set">No Alarm Set</string>
+    <string name="status_alarm_set">Alarm Currently Set:</string>
+    <string name="status_alarm_going">Alarm is Ringing</string>
 </resources>
